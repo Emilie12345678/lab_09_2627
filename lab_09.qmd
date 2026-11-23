@@ -44,6 +44,14 @@ summary_stats <- list(mean, median, sd, var)
 - [ ] For each statistic in `summary_stats`, apply the statistic to `numbers`.
 
 ::: {.solution}
+```{r}
+mean_vectors <- map_dbl(list_of_vectors, mean)
+mean_vectors
+
+summary_numbers <- map_dbl(summary_stats, function(f) f(numbers))
+summary_numbers
+                           
+```
 
 :::
 
@@ -58,6 +66,21 @@ variables <- c("flipper_length_mm", "bill_length_mm", "bill_depth_mm")
 - [ ] Create a vector of titles and add them to your plot.
 
 ::: {.solution}
+```{r}
+display_names <- c("Flipper Length (mm)", "Bill Length (mm)", "Bill Depth (mm)") 
+titles <- c(paste0(display_names, " against Body Mass (g)"))
+pmap(list(variables, display_names, titles), 
+         function(v, d, t) {
+           ggplot(penguins, 
+                  aes(x = body_mass_g,
+                      y = .data[[v]])) + 
+           geom_point() + 
+             labs( 
+               title = titles, 
+               x = "Body Mass (g)", 
+               y = display_names)
+          } )
+```
 
 :::
 
